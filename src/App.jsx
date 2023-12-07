@@ -9,6 +9,18 @@ function Square({value, onClickSquare}) {
   )
 }
 
+function ResetButton({reset}) {
+  function resetGame() {
+    reset()
+  }
+
+  return (
+    <button onClick={resetGame}>
+      Reset
+    </button>
+  )
+}
+
 function Board({xIsNext, squares, onPlay}) {
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) return
@@ -66,6 +78,11 @@ export default function Game() {
     setCurrentMove(nextMove)
   }
 
+  function resetGame() {
+    setHistory([Array(9).fill(null)])
+    setCurrentMove(0)
+  }
+
   const moves = history.map((squares, move) => {
     let description
     
@@ -91,6 +108,10 @@ export default function Game() {
         <div className="game-info">
           <ol>{moves}</ol>
         </div>
+      </div>
+
+      <div className="reset-btn">
+        <ResetButton reset={resetGame}/>
       </div>
     </>
   )
